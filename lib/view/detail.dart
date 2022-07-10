@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:recipe_app/shared.dart';
+import 'package:recipe_app/view/shared.dart';
 
 import 'constants.dart';
-import 'data.dart';
+import '../models/data.dart';
 
 class Detail extends StatelessWidget {
   final Recipe recipe;
