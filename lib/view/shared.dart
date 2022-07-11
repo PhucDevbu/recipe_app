@@ -43,6 +43,30 @@ buildTextSubTitleVariation1(String text){
   );
 }
 
+buildIngredients(String text1,String text2){
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children:[
+      Text(
+        text1,
+        style: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+          color: Colors.black45,
+        ),
+      ),
+      Text(
+        text2,
+        style: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+          color: Colors.black45,
+        ),
+      ),
+    ]
+  );
+}
+
 buildTextSubTitleVariation2(String text){
   return Padding(
     padding: EdgeInsets.only(bottom: 8),
