@@ -95,6 +95,7 @@ class MealDetail {
   String strMeasure20;
   String strSource;
   String strCategory;
+  bool isFavorite = false;
 
   factory MealDetail.fromJson(Map<String, dynamic> json) => MealDetail(
     strMeal: json["strMeal"]??"",

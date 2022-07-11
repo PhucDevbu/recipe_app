@@ -20,7 +20,7 @@ class Detail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         systemOverlayStyle: SystemUiOverlayStyle.light,
@@ -31,7 +31,6 @@ class Detail extends StatelessWidget {
           },
           child: Icon(
             Icons.arrow_back,
-            color: Colors.black,
           ),
         ),
         actions: [
@@ -39,7 +38,6 @@ class Detail extends StatelessWidget {
             padding: EdgeInsets.only(right: 16),
             child: Icon(
               Icons.favorite_border,
-              color: Colors.black,
             ),
           ),
         ],
@@ -57,7 +55,7 @@ class Detail extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   buildTextTitleVariation1(mealDetail.strMeal),
-                  buildTextSubTitleVariation1(mealDetail.strCategory),
+                  buildTextSubTitleVariation1(mealDetail.strCategory,context),
                 ],
               ),
             ),
@@ -73,7 +71,7 @@ class Detail extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      buildTextTitleVariation2('Nutritions', false),
+                      buildTextTitleVariation2('Nutritions'),
                       SizedBox(
                         height: 16,
                       ),
@@ -113,34 +111,34 @@ class Detail extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  buildTextTitleVariation2('Ingredients', false),
+                  buildTextTitleVariation2('Ingredients'),
 
-                  buildIngredients(mealDetail.strIngredient1,mealDetail.strMeasure1),
-                  buildIngredients(mealDetail.strIngredient2,mealDetail.strMeasure2),
-                  buildIngredients(mealDetail.strIngredient3,mealDetail.strMeasure3),
-                  buildIngredients(mealDetail.strIngredient4,mealDetail.strMeasure4),
-                  buildIngredients(mealDetail.strIngredient5,mealDetail.strMeasure5),
-                  buildIngredients(mealDetail.strIngredient6,mealDetail.strMeasure6),
-                  buildIngredients(mealDetail.strIngredient7,mealDetail.strMeasure7),
-                  buildIngredients(mealDetail.strIngredient8,mealDetail.strMeasure8),
-                  buildIngredients(mealDetail.strIngredient9,mealDetail.strMeasure9),
-                  buildIngredients(mealDetail.strIngredient10,mealDetail.strMeasure10),
-                  buildIngredients(mealDetail.strIngredient11,mealDetail.strMeasure11),
-                  buildIngredients(mealDetail.strIngredient12,mealDetail.strMeasure12),
-                  buildIngredients(mealDetail.strIngredient13,mealDetail.strMeasure13),
-                  buildIngredients(mealDetail.strIngredient14,mealDetail.strMeasure14),
-                  buildIngredients(mealDetail.strIngredient15,mealDetail.strMeasure15),
-                  buildIngredients(mealDetail.strIngredient16,mealDetail.strMeasure16),
-                  buildIngredients(mealDetail.strIngredient17,mealDetail.strMeasure17),
-                  buildIngredients(mealDetail.strIngredient18,mealDetail.strMeasure18),
-                  buildIngredients(mealDetail.strIngredient19,mealDetail.strMeasure19),
-                  buildIngredients(mealDetail.strIngredient20,mealDetail.strMeasure20),
+                  buildIngredients(mealDetail.strIngredient1,mealDetail.strMeasure1,context),
+                  buildIngredients(mealDetail.strIngredient2,mealDetail.strMeasure2,context),
+                  buildIngredients(mealDetail.strIngredient3,mealDetail.strMeasure3,context),
+                  buildIngredients(mealDetail.strIngredient4,mealDetail.strMeasure4,context),
+                  buildIngredients(mealDetail.strIngredient5,mealDetail.strMeasure5,context),
+                  buildIngredients(mealDetail.strIngredient6,mealDetail.strMeasure6,context),
+                  buildIngredients(mealDetail.strIngredient7,mealDetail.strMeasure7,context),
+                  buildIngredients(mealDetail.strIngredient8,mealDetail.strMeasure8,context),
+                  buildIngredients(mealDetail.strIngredient9,mealDetail.strMeasure9,context),
+                  buildIngredients(mealDetail.strIngredient10,mealDetail.strMeasure10,context),
+                  buildIngredients(mealDetail.strIngredient11,mealDetail.strMeasure11,context),
+                  buildIngredients(mealDetail.strIngredient12,mealDetail.strMeasure12,context),
+                  buildIngredients(mealDetail.strIngredient13,mealDetail.strMeasure13,context),
+                  buildIngredients(mealDetail.strIngredient14,mealDetail.strMeasure14,context),
+                  buildIngredients(mealDetail.strIngredient15,mealDetail.strMeasure15,context),
+                  buildIngredients(mealDetail.strIngredient16,mealDetail.strMeasure16,context),
+                  buildIngredients(mealDetail.strIngredient17,mealDetail.strMeasure17,context),
+                  buildIngredients(mealDetail.strIngredient18,mealDetail.strMeasure18,context),
+                  buildIngredients(mealDetail.strIngredient19,mealDetail.strMeasure19,context),
+                  buildIngredients(mealDetail.strIngredient20,mealDetail.strMeasure20,context),
 
                   SizedBox(
                     height: 16,
                   ),
-                  buildTextTitleVariation2('Recipe preparation', false),
-                  buildTextSubTitleVariation1(mealDetail.strInstructions),
+                  buildTextTitleVariation2('Recipe preparation'),
+                  buildTextSubTitleVariation1(mealDetail.strInstructions,context),
                 ],
               ),
             ),
@@ -154,6 +152,7 @@ class Detail extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             FloatingActionButton.extended(
+              heroTag: "Website",
               onPressed: _launchUrlWeb,
               backgroundColor: kPrimaryColor,
               icon: Icon(
@@ -171,6 +170,7 @@ class Detail extends StatelessWidget {
               ),
             ),
             FloatingActionButton.extended(
+              heroTag: "Video",
               onPressed: _launchUrlVideo,
               backgroundColor: Colors.red,
               icon: Icon(
@@ -232,6 +232,7 @@ class Detail extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
+                  color: Colors.black
                 ),
               ),
             ),
@@ -248,6 +249,7 @@ class Detail extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
+                  color: Colors.black
                 ),
               ),
               Text(

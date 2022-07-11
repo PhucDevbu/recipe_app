@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Color kPrimaryColor = Color(0xFF27AE60);
+Color? kPrimaryColor = Colors.amber[700];
 
 BoxShadow kBoxShadow = BoxShadow(
   color: Colors.grey.withOpacity(0.2),

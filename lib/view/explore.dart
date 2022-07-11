@@ -1,8 +1,9 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:recipe_app/providers/theme_provider.dart';
 import 'package:recipe_app/view/shared.dart';
 
 import '../models/data.dart';
@@ -16,28 +17,26 @@ class Explore extends StatefulWidget {
   State<Explore> createState() => _ExploreState();
 }
 
-class _ExploreState  extends State<Explore> {
-  int random(min, max) {
-    return min + Random().nextInt(max - min);
-  }
+class _ExploreState extends State<Explore> {
+
+
   @override
   Widget build(BuildContext context) {
+    ThemeProvider themeProvider = Provider.of<ThemeProvider>(context,listen: false);
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         systemOverlayStyle: SystemUiOverlayStyle.light,
         elevation: 0,
         leading: Icon(
           Icons.sort,
-          color: Colors.black,
         ),
         actions: [
           Padding(
             padding: EdgeInsets.only(right: 16),
             child: Icon(
               Icons.search,
-              color: Colors.black,
             ),
           ),
         ],
@@ -51,9 +50,31 @@ class _ExploreState  extends State<Explore> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  buildTextTitleVariation1('Recipes App'),
+                  Container(
+                    padding: EdgeInsets.only(bottom: 8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Recipes App',
+                          style: GoogleFonts.breeSerif(
+                            fontSize: 36,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            themeProvider.toggleTheme();
+                          },
+                          padding: EdgeInsets.all(0),
+                          icon: (themeProvider.themeMode == ThemeMode.light) ? Icon(Icons.dark_mode)
+                          :Icon(Icons.light_mode),
+                        )
+                      ],
+                    ),
+                  ),
                   buildTextSubTitleVariation1(
-                      'Healthy and nutritious food recipes'),
+                      'Healthy and nutritious food recipes',context),
                   SizedBox(
                     height: 32,
                   ),
@@ -61,151 +82,163 @@ class _ExploreState  extends State<Explore> {
                     height: 50,
                     child: Consumer<CategoryProvider>(
                         builder: (context, categoryProvider, child) {
-                          if (categoryProvider.isLoadingCategory == true) {
-                            return Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          } else {
-                            if (categoryProvider.categories.length > 0) {
-                              return ListView.builder(
-
-
-                                physics: BouncingScrollPhysics(),
-                                scrollDirection: Axis.horizontal,
-                                itemCount: categoryProvider.categories.length,
-                                itemBuilder: (context, index) {
-                                  return Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 5),
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        categoryProvider.choseCategory(categoryProvider.categories[index]);
-                                      },
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color: categoryProvider.categories[index].isChose ? kPrimaryColor : Colors.white,
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(20),
-                                          ),
-                                          boxShadow: [kBoxShadow],
-                                        ),
-                                        padding: EdgeInsets.symmetric(horizontal: 12),
-                                        child: Row(
-                                          children: [
-                                            CircleAvatar(
-                                              backgroundColor: Colors.white,
-                                              backgroundImage:
-                                              NetworkImage(categoryProvider.categories[index].strCategoryThumb),
-                                            ),
-                                            SizedBox(
-                                              width: 8,
-                                            ),
-                                            Text(
-                                              categoryProvider.categories[index].strCategory,
-                                              style: TextStyle(
-                                                color: categoryProvider.categories[index].isChose ? Colors.white : Colors.black,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                      if (categoryProvider.isLoadingCategory == true) {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else {
+                        if (categoryProvider.categories.length > 0) {
+                          return ListView.builder(
+                            physics: BouncingScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
+                            itemCount: categoryProvider.categories.length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 5),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    categoryProvider.choseCategory(
+                                        categoryProvider.categories[index]);
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: categoryProvider
+                                              .categories[index].isChose
+                                          ? kPrimaryColor
+                                          : Colors.white,
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(20),
                                       ),
+                                      boxShadow: [kBoxShadow],
                                     ),
-                                  );
-                                },
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 12),
+                                    child: Row(
+                                      children: [
+                                        CircleAvatar(
+                                          backgroundColor: Colors.white,
+                                          backgroundImage: NetworkImage(
+                                              categoryProvider.categories[index]
+                                                  .strCategoryThumb),
+                                        ),
+                                        SizedBox(
+                                          width: 8,
+                                        ),
+                                        Text(
+                                          categoryProvider
+                                              .categories[index].strCategory,
+                                          style: TextStyle(
+                                            color: categoryProvider
+                                                    .categories[index].isChose
+                                                ? Colors.white
+                                                : Colors.black,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
                               );
-                            } else {
-                              return Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [Text('Data empty')],
-                              );
-                            }
-                          }
-                        }),
+                            },
+                          );
+                        } else {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [Text('Data empty')],
+                          );
+                        }
+                      }
+                    }),
                   ),
                 ],
               ),
             ),
-
             SizedBox(
               height: 24,
             ),
             Container(
               height: 350,
               child: Consumer<CategoryProvider>(
-                builder: (context,categoryProvider, child){
-                  if (categoryProvider.isLoadingMeal == true) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else {
-                    if(categoryProvider.meals.length>0){
-                      return  ListView.builder(
-                        itemCount: categoryProvider.meals.length,
-                        itemBuilder: (context,index){
-                          return GestureDetector(
-                            onTap: () {
-                              categoryProvider.choseMeal(categoryProvider.meals[index],context);
-                            },
-
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(20),
-                                ),
-                                boxShadow: [kBoxShadow],
+                  builder: (context, categoryProvider, child) {
+                if (categoryProvider.isLoadingMeal == true) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else {
+                  if (categoryProvider.meals.length > 0) {
+                    return ListView.builder(
+                      itemCount: categoryProvider.meals.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            categoryProvider.choseMeal(
+                                categoryProvider.meals[index], context);
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(20),
                               ),
-                              margin: EdgeInsets.only(
-                                  right: 16, left: index == 0 ? 16 : 0, bottom: 16, top: 8),
-                              padding: EdgeInsets.all(16),
-                              width: 220,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: <Widget>[
-                                  Expanded(
-                                    child: Hero(
-                                      tag: categoryProvider.meals[index].strMealThumb,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                            image: NetworkImage(categoryProvider.meals[index].strMealThumb),
-                                            fit: BoxFit.contain,
-                                          ),
+                              boxShadow: [kBoxShadow],
+                            ),
+                            margin: EdgeInsets.only(
+                                right: 16,
+                                left: index == 0 ? 16 : 0,
+                                bottom: 16,
+                                top: 8),
+                            padding: EdgeInsets.all(16),
+                            width: 220,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: <Widget>[
+                                Expanded(
+                                  child: Hero(
+                                    tag: categoryProvider
+                                        .meals[index].strMealThumb,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: NetworkImage(categoryProvider
+                                              .meals[index].strMealThumb),
+                                          fit: BoxFit.contain,
                                         ),
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
-                                    height: 8,
-                                  ),
-                                  buildRecipeTitle(categoryProvider.meals[index].strMeal),
-                                  buildTextSubTitleVariation2("Very delicious"),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      buildCalories(random(150, 300).toString() + " Kcal"),
-
-                                    ],
-                                  ),
-                                ],
-                              ),
+                                ),
+                                SizedBox(
+                                  height: 8,
+                                ),
+                                buildRecipeTitle(
+                                    categoryProvider.meals[index].strMeal),
+                                buildTextSubTitleVariation2("Very delicious"),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    buildCalories(
+                                        categoryProvider.meals[index].calo + " Kcal"),
+                                  ],
+                                ),
+                              ],
                             ),
-                          );
-                        },
-                        physics: BouncingScrollPhysics(),
-                        scrollDirection: Axis.horizontal,
-                      );
-                    }else{
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [Text('Data empty')],
-                      );
-                    }
+                          ),
+                        );
+                      },
+                      physics: BouncingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                    );
+                  } else {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [Text('Data empty')],
+                    );
                   }
                 }
-              ),
-
+              }),
             ),
             SizedBox(
               height: 16,
@@ -214,11 +247,11 @@ class _ExploreState  extends State<Explore> {
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: Row(
                 children: [
-                  buildTextTitleVariation2('Popular', false),
+                  buildTextTitleVariation2('Popular'),
                   SizedBox(
                     width: 8,
                   ),
-                  buildTextTitleVariation2('Food', true),
+                  buildTextTitleVariation3('Food', context),
                 ],
               ),
             ),
@@ -234,6 +267,7 @@ class _ExploreState  extends State<Explore> {
       ),
     );
   }
+
   List<Widget> buildPopulars() {
     List<Widget> list = [];
     for (var i = 0; i < getRecipes().length; i++) {
@@ -244,9 +278,7 @@ class _ExploreState  extends State<Explore> {
 
   Widget buildPopular(Recipe recipe) {
     return GestureDetector(
-      onTap: () {
-
-      },
+      onTap: () {},
       child: Container(
         margin: EdgeInsets.all(16),
         decoration: BoxDecoration(
@@ -281,7 +313,6 @@ class _ExploreState  extends State<Explore> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         buildCalories(recipe.calories.toString() + " Kcal"),
-
                       ],
                     ),
                   ],
@@ -294,6 +325,7 @@ class _ExploreState  extends State<Explore> {
     );
   }
 }
+
 class MealView extends StatelessWidget {
   const MealView({Key? key}) : super(key: key);
 
@@ -302,4 +334,3 @@ class MealView extends StatelessWidget {
     return Container();
   }
 }
-

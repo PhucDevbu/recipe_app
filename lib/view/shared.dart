@@ -9,13 +9,12 @@ buildTextTitleVariation1(String text){
       style: GoogleFonts.breeSerif(
         fontSize: 36,
         fontWeight: FontWeight.w900,
-        color: Colors.black,
       ),
     ),
   );
 }
 
-buildTextTitleVariation2(String text, bool opacity){
+buildTextTitleVariation2(String text){
   return Padding(
     padding: EdgeInsets.only(bottom: 16),
     child: Text(
@@ -23,45 +22,42 @@ buildTextTitleVariation2(String text, bool opacity){
       style: TextStyle(
         fontSize: 24,
         fontWeight: FontWeight.bold,
-        color: opacity ? Colors.black45 : Colors.black,
       ),
     ),
   );
 }
 
-buildTextSubTitleVariation1(String text){
+buildTextTitleVariation3(String text,BuildContext context){
+  return Padding(
+    padding: EdgeInsets.only(bottom: 16),
+    child: Text(
+      text,
+      style: Theme.of(context).textTheme.headline2
+    ),
+  );
+}
+
+buildTextSubTitleVariation1(String text,BuildContext context){
   return Padding(
     padding: EdgeInsets.only(bottom: 8),
     child: Text(
       text,
-      style: TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.bold,
-        color: Colors.black45,
-      ),
-    ),
-  );
+      style: Theme.of(context).textTheme.headline1  ),
+    );
+
 }
 
-buildIngredients(String text1,String text2){
+buildIngredients(String text1,String text2,BuildContext context){
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children:[
       Text(
         text1,
-        style: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
-          color: Colors.black45,
-        ),
+        style: Theme.of(context).textTheme.headline1,
       ),
       Text(
         text2,
-        style: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
-          color: Colors.black45,
-        ),
+        style: Theme.of(context).textTheme.headline1,
       ),
     ]
   );
@@ -90,6 +86,7 @@ buildRecipeTitle(String text){
       style: TextStyle(
         fontSize: 22,
         fontWeight: FontWeight.bold,
+        color: Colors.black
       ),
     ),
   );

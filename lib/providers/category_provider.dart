@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:recipe_app/services/remote_services.dart';
 
@@ -34,6 +36,9 @@ class CategoryProvider with ChangeNotifier{
   //   notifyListeners();
   // }
 
+  int random(min, max) {
+    return min + Random().nextInt(max - min);
+  }
   void choseCategory(Category category) async{
     int indexOfCategory = categories.indexOf(category);
     for(int i=0;i<categories.length;i++){
@@ -41,6 +46,9 @@ class CategoryProvider with ChangeNotifier{
     }
     categories[indexOfCategory].isChose = true;
     meals = await RemoteServices.fetchMeal(categories[indexOfCategory].strCategory);
+    for(int i=0;i<meals.length;i++){
+      meals[i].calo =random(150, 300).toString();
+    }
 
     notifyListeners();
   }
