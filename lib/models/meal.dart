@@ -10,6 +10,7 @@ class Meal {
   String idMeal;
   String calo="200";
 
+
   factory Meal.fromJson(Map<String, dynamic> json) => Meal(
     strMeal: json["strMeal"],
     strMealThumb: json["strMealThumb"],

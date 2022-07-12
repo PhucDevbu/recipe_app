@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,6 +7,7 @@ import 'package:recipe_app/view/shared.dart';
 
 import '../models/data.dart';
 import '../providers/category_provider.dart';
+import 'app_button.dart';
 import 'constants.dart';
 
 class Explore extends StatefulWidget {
@@ -18,19 +18,41 @@ class Explore extends StatefulWidget {
 }
 
 class _ExploreState extends State<Explore> {
-
-
   @override
   Widget build(BuildContext context) {
-    ThemeProvider themeProvider = Provider.of<ThemeProvider>(context,listen: false);
+    ThemeProvider themeProvider =
+        Provider.of<ThemeProvider>(context, listen: false);
     return Scaffold(
+      drawerEnableOpenDragGesture: false,
+      drawer: Drawer(
+        child: SafeArea(
+          child: Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 24),
+                    child: Consumer<CategoryProvider>(
+                        builder: (context, categoryProvider, child) {
+                      return AppButton(label: 'Favorites', onTap: () {
+                        categoryProvider.fetchFavorites(context);
+                      });
+                    })),
+              ],
+            ),
+          ),
+        ),
+      ),
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         systemOverlayStyle: SystemUiOverlayStyle.light,
         elevation: 0,
-        leading: Icon(
-          Icons.sort,
+        leading: Builder(
+          builder: (context) => // Ensure Scaffold is in context
+              IconButton(
+                  icon: Icon(Icons.menu),
+                  onPressed: () => Scaffold.of(context).openDrawer()),
         ),
         actions: [
           Padding(
@@ -67,14 +89,15 @@ class _ExploreState extends State<Explore> {
                             themeProvider.toggleTheme();
                           },
                           padding: EdgeInsets.all(0),
-                          icon: (themeProvider.themeMode == ThemeMode.light) ? Icon(Icons.dark_mode)
-                          :Icon(Icons.light_mode),
+                          icon: (themeProvider.themeMode == ThemeMode.light)
+                              ? Icon(Icons.dark_mode)
+                              : Icon(Icons.light_mode),
                         )
                       ],
                     ),
                   ),
                   buildTextSubTitleVariation1(
-                      'Healthy and nutritious food recipes',context),
+                      'Healthy and nutritious food recipes', context),
                   SizedBox(
                     height: 32,
                   ),
@@ -220,7 +243,8 @@ class _ExploreState extends State<Explore> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     buildCalories(
-                                        categoryProvider.meals[index].calo + " Kcal"),
+                                        categoryProvider.meals[index].calo +
+                                            " Kcal"),
                                   ],
                                 ),
                               ],

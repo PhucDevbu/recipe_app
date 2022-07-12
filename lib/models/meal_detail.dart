@@ -1,6 +1,7 @@
 
 class MealDetail {
   MealDetail({
+    required this.idMeal,
     required this.strMeal,
     required this.strInstructions,
     required this.strMealThumb,
@@ -49,6 +50,7 @@ class MealDetail {
     required this.strCategory
   });
 
+  String idMeal;
   String strMeal;
   String strInstructions;
   String strMealThumb;
@@ -144,9 +146,11 @@ class MealDetail {
     strMeasure20: json["strMeasure20"]??"",
     strCategory: json["strCategory"]??"",
     strSource: json["strSource"]??"",
+    idMeal: json["idMeal"]??"",
   );
 
   Map<String, dynamic> toJson() => {
+    "idMeal": idMeal,
     "strMeal": strMeal,
     "strInstructions": strInstructions,
     "strMealThumb": strMealThumb,
