@@ -77,6 +77,27 @@ class CategoryProvider with ChangeNotifier {
     );
   }
 
+  void fetchFavoritesDetail(BuildContext context) async {
+    mealFavorites=[];
+    List<String> favorites = await LocalStorage.fetchFavorites();
+    for (var meal in meals) {
+      if (favorites.contains(meal.idMeal)) {
+        temps = await RemoteServices.fetchMealDetail(meal.idMeal);
+
+        if (favorites.contains(temps[0].idMeal)) {
+          temps[0].isFavorite = true;
+          mealFavorites.add(temps[0]);
+        }
+
+      }
+    }
+    //mealFavorites=removeDuplicates(mealFavorites);
+    //mealFavorites = mealFavoritesTemp.length>0?mealFavoritesTemp:mealFavorites;
+
+    notifyListeners();
+    Navigator.pop(context);
+  }
+
   int random(min, max) {
     return min + Random().nextInt(max - min);
   }

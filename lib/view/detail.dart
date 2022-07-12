@@ -27,14 +27,20 @@ class Detail extends StatelessWidget {
           backgroundColor: Colors.transparent,
           systemOverlayStyle: SystemUiOverlayStyle.light,
           elevation: 0,
-          leading: GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Icon(
-              Icons.arrow_back,
-            ),
+          leading: Consumer<CategoryProvider>(
+              builder: (context, categoryProvider, child){
+                return GestureDetector(
+                  onTap: () {
+                    categoryProvider.fetchFavoritesDetail(context);
+                  },
+                  child: Icon(
+                    Icons.arrow_back,
+                  ),
+                );
+              }
           ),
+
+
           actions: [
             Padding(
               padding: EdgeInsets.only(right: 16),
