@@ -36,4 +36,13 @@ class RemoteServices{
     return data;
   }
 
+  static Future<List<MealDetail>> fetchSearch(String search) async{
+    Uri requestPath = Uri.parse("https://www.themealdb.com/api/json/v1/1/search.php?s=$search");
+
+    var response = await http.get(requestPath);
+    var data = List<Map<String, dynamic>>.from(json.decode(response.body)["meals"]).map((json) => MealDetail.fromJson(json)).toList();
+
+    return data;
+  }
+
 }

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:recipe_app/providers/theme_provider.dart';
+import 'package:recipe_app/view/search.dart';
 import 'package:recipe_app/view/shared.dart';
 
 import '../models/data.dart';
@@ -57,8 +58,12 @@ class _ExploreState extends State<Explore> {
         actions: [
           Padding(
             padding: EdgeInsets.only(right: 16),
-            child: Icon(
-              Icons.search,
+            child: IconButton(
+
+              onPressed: (){
+                showSearch(context: context, delegate: MySearchDelegate());
+              },
+              icon: Icon(Icons.search),
             ),
           ),
         ],
@@ -357,4 +362,54 @@ class MealView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container();
   }
+}
+class MySearchDelegate extends SearchDelegate{
+  @override
+  List<Widget>? buildActions(BuildContext context) {
+    IconButton(
+      icon: Icon(Icons.clear),
+      onPressed:()=>close(context, null) ,
+    );
+  }
+
+  @override
+  Widget? buildLeading(BuildContext context) {
+    IconButton(
+      icon: Icon(Icons.arrow_back),
+      onPressed: (){
+        if(query.isEmpty){
+          close(context, null);
+        }else{
+          query='';
+        }
+
+      },
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    return Search(query: query);
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    List<String> suggestions = [
+      'chicken',
+      'beef',
+    ];
+    return ListView.builder(
+      itemCount: suggestions.length,
+      itemBuilder: (context,index){
+        return ListTile(
+          title: Text(suggestions[index]),
+          onTap: (){
+            query=suggestions[index];
+            showResults(context);
+          },
+        );
+      },
+    );
+  }
+  
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_app/providers/category_provider.dart';
+import 'package:recipe_app/providers/search_provider.dart';
 import 'package:recipe_app/providers/theme_provider.dart';
 import 'package:recipe_app/view/explore.dart';
 import 'package:provider/provider.dart';
@@ -26,6 +27,8 @@ class MyApp extends StatelessWidget {
             create: (context) => CategoryProvider()),
         ChangeNotifierProvider<ThemeProvider>(
             create: (context) => ThemeProvider(theme)),
+        ChangeNotifierProvider<SearchProvider>(
+            create: (context) => SearchProvider()),
       ],
       child: Consumer<ThemeProvider>(
         builder: (context, themeProvider, child) {

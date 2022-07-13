@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:recipe_app/models/meal_detail.dart';
 import 'package:recipe_app/providers/category_provider.dart';
 import 'package:recipe_app/view/shared.dart';
-
-import 'constants.dart';
-import 'detail.dart';
 
 class Favorites extends StatefulWidget {
   const Favorites({Key? key}) : super(key: key);
@@ -45,7 +41,7 @@ class _FavoritesState extends State<Favorites> {
                     physics: BouncingScrollPhysics(),
                     scrollDirection: Axis.vertical,
                     itemBuilder: (context, index) {
-                      return buildFavorites(categoryProvider.mealFavorites[index]);
+                      return buildFavorites(categoryProvider.mealFavorites[index],context);
                     }),
               );
             }else{
@@ -62,53 +58,5 @@ class _FavoritesState extends State<Favorites> {
   }
 
 
-  Widget buildFavorites(MealDetail mealFavorites) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => Detail(mealDetail: mealFavorites)),
-        );
-      },
-      child: Container(
-        margin: EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(
-            Radius.circular(20),
-          ),
-          boxShadow: [kBoxShadow],
-        ),
-        child: Row(
-          children: [
-            Container(
-              height: 160,
-              width: 160,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(20)),
-                image: DecorationImage(
-                  image: NetworkImage(mealFavorites.strMealThumb),
-                  fit: BoxFit.fitHeight,
-                ),
-              ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 6),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    buildRecipeTitle(mealFavorites.strMeal),
-                    buildRecipeSubTitle(mealFavorites.strCategory),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+
 }
