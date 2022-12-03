@@ -1,35 +1,35 @@
-import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
+
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class LocalStorage{
-
-  static Future<bool> saveTheme(String theme) async{
-    SharedPreferences sharedPreferences= await SharedPreferences.getInstance();
-    bool result =  await sharedPreferences.setString("theme", theme);
-    return result;
+  static const storage = FlutterSecureStorage();
+  static saveTheme(String theme) async{
+    await storage.write(key: "theme", value: theme);
   }
 
   static Future<String?> getTheme() async{
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    String? currentTheme = sharedPreferences.getString("theme");
+    String? currentTheme = await storage.read(key: "theme");
     return currentTheme;
   }
 
-  static Future<bool> addFavorite(String id)async{
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    List<String> favorites = sharedPreferences.getStringList("favorites")?? [];
+  static addFavorite(String id)async{
+    List<String> favorites =[];
     favorites.add(id);
-    return await sharedPreferences.setStringList("favorites", favorites);
+    final value = jsonEncode(favorites);
+    await storage.write(key: "favorites", value: value);
   }
 
-  static Future<bool> removeFavorite(String id)async{
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    List<String> favorites = sharedPreferences.getStringList("favorites")?? [];
+  static removeFavorite(String id)async{
+    final value = await storage.read(key: "favorites")??"";
+    List<String> favorites = jsonDecode(value);
     favorites.remove(id);
-    return await sharedPreferences.setStringList("favorites", favorites);
+    await storage.write(key: "favorites", value: value);
   }
 
   static Future<List<String>> fetchFavorites() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    return sharedPreferences.getStringList("favorites")??[];
+    final value = await storage.read(key: "favorites")??"";
+    List<String> favorites = jsonDecode(value);
+    return favorites;
   }
 }

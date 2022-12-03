@@ -20,6 +20,11 @@ class Explore extends StatefulWidget {
 
 class _ExploreState extends State<Explore> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
     ThemeProvider themeProvider =
         Provider.of<ThemeProvider>(context, listen: false);
