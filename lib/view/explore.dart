@@ -40,9 +40,17 @@ class _ExploreState extends State<Explore> {
                     padding: const EdgeInsets.symmetric(vertical: 24),
                     child: Consumer<CategoryProvider>(
                         builder: (context, categoryProvider, child) {
-                      return AppButton(label: 'Favorites', onTap: () {
-                        categoryProvider.fetchFavorites(context);
-                      });
+                      return Column(
+                        children: [
+                          AppButton(label: 'Favorites', onTap: () {
+                            categoryProvider.fetchFavorites(context);
+                          }),
+                          SizedBox(height: 20,),
+                          AppButton(label: 'User', onTap: () {
+                            Navigator.pushNamed(context, '/profile');
+                          }),
+                        ],
+                      );
                     })),
               ],
             ),
