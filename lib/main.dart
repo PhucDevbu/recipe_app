@@ -226,7 +226,8 @@ class MyApp extends StatelessWidget {
                 return ProfileScreen(
                   actions: [
                     SignedOutAction((context) {
-                      Navigator.pushReplacementNamed(context, '/');
+                      Navigator.of(context)
+                          .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
                     }),
                     mfaAction,
                   ],
